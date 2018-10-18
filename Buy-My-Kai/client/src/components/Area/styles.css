@@ -1,0 +1,19 @@
+.leaflet-container {
+  height: 100vh;
+  width: 100%;
+}
+
+.container {
+  padding-top:0;
+}
+
+.pure-form {
+  margin-bottom: 3%;
+  /* display: flex;
+  flex-direction: row; */
+}
+
+.pure-form .btn {
+  margin-left: 3%;
+  width: 15%;
+}
