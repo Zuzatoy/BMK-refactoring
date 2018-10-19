@@ -1,20 +1,12 @@
 const express = require('express')
+const passport = require('passport')
 
-const apiroutes = require('./routes/api')
+const authRoutes = require('./routes/auth')
 
 const server = express()
-
-// Middleware
+server.use(passport.initialize())
 server.use(express.json())
-server.use(express.urlencoded({extended: true}))
 
-server.use(function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*')
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept')
-  next()
-})
-
-// Routes
-server.use('/api', apiroutes)
+server.use('/api/v1/auth', authRoutes)
 
 module.exports = server
