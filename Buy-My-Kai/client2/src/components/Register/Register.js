@@ -2,6 +2,10 @@ import React from 'react';
 import { Redirect, Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 // import {postUser} from '../../actions/register'
+import { bindActionCreators } from 'redux';
+import { registerUser } from '../../ducks/users';
+
+import './style.css';
 import {
   Button,
   Checkbox,
@@ -24,7 +28,6 @@ export class Register extends React.Component {
     city: '',
     description: '',
     hours: '',
-    success: false,
     isClicked: false,
     disabled: true,
   };
@@ -35,7 +38,7 @@ export class Register extends React.Component {
     });
   };
 
-  handleChange(e) {
+  handleChange = (e) => {
     e.preventDefault();
     this.setState({
       [e.target.name]: e.target.value,
@@ -45,7 +48,7 @@ export class Register extends React.Component {
         disabled: false,
       });
     }
-  }
+  };
   //   sendUser() {
   //     this.props.dispatch(postUser(this.state)).then(
   //       this.setState({
@@ -54,20 +57,21 @@ export class Register extends React.Component {
   //     );
   //   }
   render() {
+    const { actions, loading } = this.props;
+    const {
+      name,
+      email,
+      hash,
+      address,
+      isSeller,
+      suburb,
+      city,
+      description,
+      disabled,
+      hours,
+    } = this.state;
     return (
-      <div className="login-form">
-        {/*
-          Heads up! The styles below are necessary for the correct render of this example.
-          You can do same with CSS, the main idea is that all the elements up to the `Grid`
-          below must have a height of 100%.
-        */}
-        <style>{`
-          body > div,
-          body > div > div,
-          body > div > div > div.login-form {
-            height: 100%;
-          }
-        `}</style>
+      <div className="RegisterFormContainer">
         <Grid
           textAlign="center"
           style={{ height: '100%' }}
@@ -78,7 +82,7 @@ export class Register extends React.Component {
               <Header as="h2" color="teal" textAlign="center" size="huge">
                 REGISTER
               </Header>
-              <Header as="h2" color="teal" textAlign="center" size="large">
+              <Header as="h2" color="teal" textAlign="center" size="small">
                 We just need to get a few details
                 <br />
                 from you to get you sign up <br />
@@ -86,24 +90,28 @@ export class Register extends React.Component {
               </Header>
               <div>
                 <Form.Field>
-                  <Label pointing="right">Name</Label>
+                  {/* <Label pointing="right">Name</Label> */}
                   <input
                     placeholder="Name"
-                    value={this.state.name}
+                    value={name}
+                    name="name"
                     onChange={this.handleChange}
                   />
                 </Form.Field>
               </div>
+              <br />
               <div>
                 <Form.Field>
-                  <Label pointing="right">email</Label>
+                  {/* <Label pointing="right">email</Label> */}
                   <input
                     placeholder="email"
-                    value={this.state.email}
+                    value={email}
+                    name="email"
                     onChange={this.handleChange}
                   />
                 </Form.Field>
               </div>
+              <br />
               <div>
                 <Form.Field inline>
                   <Label pointing="right">
@@ -112,17 +120,19 @@ export class Register extends React.Component {
                   <input
                     type="password"
                     placeholder="Password"
-                    value={this.state.hash}
+                    value={hash}
+                    name="hash"
                     onChange={this.handleChange}
                   />
                 </Form.Field>
               </div>
+              <br />
               <div>
-                <Header as="h2" color="teal" textAlign="center" size="large">
+                <Header as="h2" color="teal" textAlign="center" size="small">
                   Are you a Grower?
                 </Header>
                 <Checkbox
-                  checked={this.state.isSeller}
+                  checked={isSeller}
                   name="seller"
                   onChange={this.handleSeller}
                 />
@@ -132,14 +142,16 @@ export class Register extends React.Component {
                   <Form.Field>
                     <input
                       placeholder="Street Address"
-                      value={this.state.address}
+                      value={address}
+                      name="address"
                       onChange={this.handleChange}
                     />
                   </Form.Field>
                   <Form.Field>
                     <input
                       placeholder="Suburb"
-                      value={this.state.suburb}
+                      value={suburb}
+                      name="suburb"
                       onChange={this.handleChange}
                     />
                   </Form.Field>
@@ -148,7 +160,8 @@ export class Register extends React.Component {
                     <Form.Field>
                       <input
                         placeholder="City"
-                        value={this.state.city}
+                        value={city}
+                        name="city"
                         onChange={this.handleChange}
                       />
                     </Form.Field>
@@ -159,7 +172,8 @@ export class Register extends React.Component {
                       control={TextArea}
                       label="Description"
                       placeholder="Description"
-                      value={this.state.description}
+                      value={description}
+                      name="description"
                       onChange={this.handleChange}
                     />
 
@@ -168,14 +182,16 @@ export class Register extends React.Component {
                       control={TextArea}
                       label="Hours"
                       placeholder="Hours"
-                      value={this.state.hours}
+                      value={hours}
+                      name="hours"
                       onChange={this.handleChange}
                     />
                   </div>
                 </div>
               )}
+              <br />
               <div>
-                <Header as="h2" color="teal" textAlign="center" size="large">
+                <Header as="h2" color="teal" textAlign="center" size="tiny">
                   Term and conditions
                 </Header>
                 <Segment attached>
@@ -188,11 +204,20 @@ export class Register extends React.Component {
                   for purchase on this Website, or your purchase of products
                   available on this Website.
                 </Segment>
+                <br />
                 <Form.Field>
                   <Checkbox label="I agree to the Terms and Conditions" />
                 </Form.Field>
               </div>
-              <Button disabled={this.state.disabled} onClick={this.sendUser}>
+              <br />
+              <Button
+                color="teal"
+                fluid
+                size="large"
+                disabled={disabled}
+                loading={loading}
+                onClick={() => actions.registerUser(this.state)}
+              >
                 Submit
               </Button>
               {this.state.success && <Redirect to="/profile" />}
@@ -203,9 +228,6 @@ export class Register extends React.Component {
                   <u>Login</u>
                 </Link>
               </Header>
-
-              {/* <div className='pure-u-1'>
-        <a href="#top"><h4> Return to top <i className="fas fa-caret-up"></i></h4></a> */}
             </Form>
           </Grid.Column>
         </Grid>
@@ -213,8 +235,21 @@ export class Register extends React.Component {
     );
   }
 }
+
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(
+    {
+      registerUser,
+    },
+    dispatch,
+  ),
+});
+
 const mapStateToProps = (state) => ({
   ...state.users,
 });
 
-export default connect(mapStateToProps)(Register);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Register);

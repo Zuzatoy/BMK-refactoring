@@ -1,10 +1,18 @@
 import request from 'axios';
 
-import { GEOCODING_PROVIDER_URL } from './constants';
+import { GEOCODING_PROVIDER_URL, SERVER_DEV_URL } from './constants';
 
-export const registerUser = (userData) => {
-  console.log(userData); // here should be api request to backend
-};
+async function registerUser(userData) {
+  try {
+    const response = await request.post(
+      `${SERVER_DEV_URL}/users/register`,
+      userData,
+    );
+    console.log(response);
+  } catch (error) {
+    return new Error('Cannot register user: ' + error.message);
+  }
+}
 
 async function getUserCoordinates(address) {
   try {

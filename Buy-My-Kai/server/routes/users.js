@@ -96,7 +96,7 @@ function register (req, res) {
       }
       res.status(500).json({
         ok: false,
-        message: 'An unknown error occured'
+        message: 'An unknown error occured: ' + message,
       })
     })
 }

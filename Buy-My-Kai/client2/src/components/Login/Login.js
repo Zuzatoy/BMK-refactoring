@@ -1,58 +1,89 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import './style.css';
 import {
   Button,
   Form,
   Grid,
   Header,
-  Image,
   Message,
   Segment,
 } from 'semantic-ui-react';
 
-const Login = () => (
-  <div className="login-form">
-    {/*
-      Heads up! The styles below are necessary for the correct render of this example.
-      You can do same with CSS, the main idea is that all the elements up to the `Grid`
-      below must have a height of 100%.
-    */}
-    <style>{`
-      body > div,
-      body > div > div,
-      body > div > div > div.login-form {
-        height: 100%;
-      }
-    `}</style>
-    <Grid textAlign="center" style={{ height: '100%' }} verticalAlign="middle">
-      <Grid.Column style={{ maxWidth: 450 }}>
-        <Header as="h2" color="teal" textAlign="center">
-          <Image src="/logo.png" /> Log-in to your account
-        </Header>
-        <Form size="large">
-          <Segment stacked>
-            <Form.Input
-              fluid
-              icon="user"
-              iconPosition="left"
-              placeholder="E-mail address"
-            />
-            <Form.Input
-              fluid
-              icon="lock"
-              iconPosition="left"
-              placeholder="Password"
-              type="password"
-            />
+class Login extends React.Component {
+  state = {
+    email: '',
+    hash: '',
+    disabled: true,
+  };
+  handleChange(e) {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+    if (this.state.email && this.state.hash) {
+      this.setState({
+        disabled: false,
+      });
+    }
+  }
 
-            <Button color="teal" fluid size="large">
-              Login
-            </Button>
-          </Segment>
-        </Form>
-        <Message>{/* New to us? <a href="#">Sign Up</a> */}</Message>
-      </Grid.Column>
-    </Grid>
-  </div>
-);
+  handleSubmit(e) {
+    e.preventDefault();
+    // this.props.dispatch(loginUser(this.state.email, this.state.hash));
+  }
+  render() {
+    const { error, isLoggedIn } = this.props;
+    return (
+      <div className="RegisterFormContainer ">
+        <Grid
+          textAlign="center"
+          style={{ height: '100%' }}
+          verticalAlign="middle"
+        >
+          <Grid.Column style={{ maxWidth: 450 }}>
+            <Header as="h2" color="teal" textAlign="center">
+              {/* <Image src="/../Buy-My-Kai/client2/public/images/logo-4.png" /> */}
+              Log-in to your account
+            </Header>
+            <Form size="large">
+              <Segment stacked>
+                <Form.Input
+                  fluid
+                  icon="user"
+                  iconPosition="left"
+                  placeholder="E-mail address"
+                />
+                <Form.Input
+                  fluid
+                  icon="lock"
+                  iconPosition="left"
+                  placeholder="Password"
+                  type="password"
+                />
 
-export default Login;
+                <Button
+                  color="teal"
+                  fluid
+                  size="large"
+                  onClick={this.handleSubmit}
+                  disabled={this.state.disabled}
+                >
+                  Login
+                </Button>
+              </Segment>
+            </Form>
+            <Message>
+              New to us? <a href="/register">Sign Up</a>
+            </Message>
+          </Grid.Column>
+        </Grid>
+      </div>
+    );
+  }
+}
+
+const mapStateToProps = (state) => ({
+  ...state.users,
+});
+
+export default connect(mapStateToProps)(Login);
