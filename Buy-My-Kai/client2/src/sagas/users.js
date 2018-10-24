@@ -7,18 +7,6 @@ import { usersActions } from '../ducks';
 
 const { REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_ERROR } = usersActions;
 
-/*
-{
-  type: 'REGISTER_REQUEST',
-  payload: {
-    address: '1/39 Stottholm Road',
-    suburb: 'Titirangi',
-    city: 'Auckland',
-    name: 'Anna',
-  }
-}
-*/
-
 function* register({ payload }) {
   try {
     const { address, suburb, city } = payload;

@@ -113,10 +113,7 @@ export class Register extends React.Component {
               </div>
               <br />
               <div>
-                <Form.Field inline>
-                  <Label pointing="right">
-                    Your password must be 6 characters or more
-                  </Label>
+                <Form.Field>
                   <input
                     type="password"
                     placeholder="Password"

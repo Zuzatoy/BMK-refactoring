@@ -14,7 +14,6 @@ export const registerUser = (userData) => ({
   payload: userData,
 });
 
-// TODO: Add reducer
 export function usersReducer(state = [], { type, payload }) {
   switch (type) {
     case REGISTER_REQUEST:
