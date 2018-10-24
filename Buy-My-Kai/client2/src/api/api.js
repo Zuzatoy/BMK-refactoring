@@ -25,13 +25,20 @@ async function getUserCoordinates(address) {
   }
 }
 
-// const getUserCoordinatesPromise = (address) =>
-//   request
-//     .post(GEOCODING_PROVIDER_URL, { location: address })
-//     .then((response) => response.data.results[0].locations[0].latLng)
-//     .catch((error) => console.log(error));
+async function loginUser(userData) {
+  try {
+    const response = await request.get(
+      `${SERVER_DEV_URL}/users/login`,
+      userData,
+    );
+    console.log(response);
+  } catch (error) {
+    return new Error('Cannot login user: ' + error.message);
+  }
+}
 
 export const api = {
   getUserCoordinates,
   registerUser,
+  loginUser,
 };
