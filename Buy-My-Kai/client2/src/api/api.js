@@ -27,7 +27,7 @@ async function getUserCoordinates(address) {
 
 async function loginUser(userData) {
   try {
-    const response = await request.get(
+    const response = await request.post(
       `${SERVER_DEV_URL}/users/login`,
       userData,
     );

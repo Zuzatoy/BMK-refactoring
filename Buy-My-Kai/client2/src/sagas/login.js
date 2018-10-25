@@ -7,10 +7,26 @@ import { loginUserActions } from '../ducks';
 
 const { LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_ERROR } = loginUserActions;
 
+function* login({ payload }) {
+  try {
+    const { email, hash } = payload;
+    // const loginData =  yield call(api.loginUser);
 
-function* login ({ payload }) {
-    try {
-        const { name, password } = payload;
-    }
+    yield call(api.loginUser, {
+      ...payload,
+    });
 
+    yield put({
+      type: LOGIN_SUCCESS,
+    });
+
+    yield put(push('/profile'));
+  } catch (error) {
+    yield put({
+      type: LOGIN_ERROR,
+      payload: error,
+    });
+  }
 }
+
+export default [takeLatest(LOGIN_REQUEST, login)];

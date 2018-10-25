@@ -16,23 +16,26 @@ class Login extends React.Component {
     hash: '',
     disabled: true,
   };
-  handleChange(e) {
+
+  handleChange = (e) => {
+    e.preventDefault();
     this.setState({
       [e.target.name]: e.target.value,
     });
-    if (this.state.email && this.state.hash) {
+    if (this.state.name && this.state.email && this.state.hash) {
       this.setState({
         disabled: false,
       });
     }
-  }
-
-  handleSubmit(e) {
+  };
+  handleSubmit = (e) => {
     e.preventDefault();
     // this.props.dispatch(loginUser(this.state.email, this.state.hash));
-  }
+  };
   render() {
-    const { error, isLoggedIn } = this.props;
+    const { actions, loading } = this.props;
+    const { hash, email } = this.state;
+
     return (
       <div className="RegisterFormContainer ">
         <Grid
@@ -52,13 +55,16 @@ class Login extends React.Component {
                   icon="user"
                   iconPosition="left"
                   placeholder="E-mail address"
+                  value={email}
+                  name="email"
                 />
                 <Form.Input
                   fluid
                   icon="lock"
                   iconPosition="left"
                   placeholder="Password"
-                  type="password"
+                  type={hash}
+                  onChange={this.handleChange}
                 />
 
                 <Button
