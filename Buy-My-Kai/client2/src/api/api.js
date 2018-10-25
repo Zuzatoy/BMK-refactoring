@@ -1,14 +1,11 @@
 import request from 'axios';
 
 import { GEOCODING_PROVIDER_URL, SERVER_DEV_URL } from './constants';
+import { setToken, getToken } from '../utils/token';
 
 async function registerUser(userData) {
   try {
-    const response = await request.post(
-      `${SERVER_DEV_URL}/users/register`,
-      userData,
-    );
-    console.log(response);
+    await request.post(`${SERVER_DEV_URL}/users/register`, userData);
   } catch (error) {
     return new Error('Cannot register user: ' + error.message);
   }
@@ -25,13 +22,17 @@ async function getUserCoordinates(address) {
   }
 }
 
-async function loginUser(userData) {
+async function loginUser({ email, password: hash }) {
   try {
-    const response = await request.post(
-      `${SERVER_DEV_URL}/users/login`,
-      userData,
-    );
-    console.log(response);
+    const response = await request.post(`${SERVER_DEV_URL}/users/login`, {
+      email,
+      hash,
+    });
+    const { token, user } = response.data;
+
+    setToken(token);
+
+    return user;
   } catch (error) {
     return new Error('Cannot login user: ' + error.message);
   }

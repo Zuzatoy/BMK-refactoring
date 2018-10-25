@@ -1,38 +1,51 @@
-const REGISTER_REQUEST = 'REGISTER_REQUEST';
-const REGISTER_SUCCESS = 'REGISTER_SUCCESS';
-const REGISTER_ERROR = 'REGISTER_ERROR';
+const USERS_REGISTER = 'USERS_REGISTER';
+const USERS_LOGIN = 'USERS_LOGIN';
+const USERS_LOGOUT = 'USERS_LOGOUT';
+const USERS_SUCCESS = 'USERS_SUCCESS';
+const USERS_ERROR = 'USERS_ERROR';
 
 export const usersActions = {
-  REGISTER_REQUEST,
-  REGISTER_SUCCESS,
-  REGISTER_ERROR,
+  USERS_REGISTER,
+  USERS_LOGIN,
+  USERS_LOGOUT,
+  USERS_SUCCESS,
+  USERS_ERROR,
 };
 
-export const registerUser = (userData) => ({
+export const registerUser = (payload) => ({
   // pass this function to onClick event to registration button (dont forget to import it see example in Pizza)
-  type: REGISTER_REQUEST,
-  payload: userData,
+  type: USERS_REGISTER,
+  payload,
 });
 
+export const loginUser = (payload) => ({
+  type: USERS_LOGIN,
+  payload,
+});
+
+// TODO: Add reducer
 export function usersReducer(state = [], { type, payload }) {
   switch (type) {
-    case REGISTER_REQUEST:
+    case USERS_REGISTER:
+    case USERS_LOGIN:
+    case USERS_LOGOUT:
       return {
         ...state,
         loading: true,
         error: '',
       };
-    case REGISTER_SUCCESS:
+    case USERS_SUCCESS:
       return {
         ...state,
+        user: payload,
         loading: false,
         error: '',
       };
-    case REGISTER_ERROR:
+    case USERS_ERROR:
       return {
         ...state,
         loading: false,
-        error: payload.error,
+        error: payload,
       };
     default:
       return state;

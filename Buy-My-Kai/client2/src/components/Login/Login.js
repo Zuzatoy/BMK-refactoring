@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { loginUser } from '../../ducks/login';
+import { loginUser } from '../../ducks';
 import './style.css';
 import {
   Button,
@@ -15,8 +15,7 @@ import {
 class Login extends React.Component {
   state = {
     email: '',
-    hash: '',
-    disabled: true,
+    password: '',
   };
 
   handleChange = (e) => {
@@ -24,11 +23,6 @@ class Login extends React.Component {
     this.setState({
       [e.target.name]: e.target.value,
     });
-    if (this.state.name && this.state.email && this.state.hash) {
-      this.setState({
-        disabled: false,
-      });
-    }
   };
   handleSubmit = (e) => {
     e.preventDefault();
@@ -36,7 +30,7 @@ class Login extends React.Component {
   };
   render() {
     const { actions, loading } = this.props;
-    const { hash, email, disabled } = this.state;
+    const { email, password } = this.state;
 
     return (
       <div className="RegisterFormContainer ">
@@ -59,13 +53,16 @@ class Login extends React.Component {
                   placeholder="E-mail address"
                   value={email}
                   name="email"
+                  onChange={this.handleChange}
                 />
                 <Form.Input
                   fluid
                   icon="lock"
                   iconPosition="left"
                   placeholder="Password"
-                  type={hash}
+                  value={password}
+                  name="password"
+                  type="password"
                   onChange={this.handleChange}
                 />
 
@@ -73,7 +70,7 @@ class Login extends React.Component {
                   color="teal"
                   fluid
                   size="large"
-                  disabled={disabled}
+                  disabled={!(email && password)}
                   loading={loading}
                   onClick={() => actions.loginUser(this.state)}
                 >
@@ -101,7 +98,7 @@ const mapDispatchToProps = (dispatch) => ({
 });
 
 const mapStateToProps = (state) => ({
-  ...state.users,
+  loading: state.users.loading,
 });
 
 export default connect(

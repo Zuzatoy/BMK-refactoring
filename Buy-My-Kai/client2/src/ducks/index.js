@@ -6,4 +6,4 @@ export default combineReducers({
   users: usersReducer,
 });
 
-export { registerUser, usersActions } from './users';
+export { registerUser, loginUser, usersActions } from './users';

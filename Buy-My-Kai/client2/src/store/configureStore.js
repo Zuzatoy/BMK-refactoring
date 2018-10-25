@@ -8,8 +8,7 @@ import sagas from '../sagas';
 const initialState = {
   users: {
     loading: false,
-    userId: null, // after authorisation storing user id
-    name: '', // after authorisation storing user's name
+    user: {},
     error: '',
   },
   // posts: {

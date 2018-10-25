@@ -5,7 +5,13 @@ import { api } from '../api';
 import { setToken } from '../utils/token';
 import { usersActions } from '../ducks';
 
-const { REGISTER_REQUEST, REGISTER_SUCCESS, REGISTER_ERROR } = usersActions;
+const {
+  USERS_LOGIN,
+  USERS_LOGOUT,
+  USERS_REGISTER,
+  USERS_ERROR,
+  USERS_SUCCESS,
+} = usersActions;
 
 function* register({ payload }) {
   try {
@@ -19,16 +25,37 @@ function* register({ payload }) {
     });
 
     yield put({
-      type: REGISTER_SUCCESS,
+      type: USERS_SUCCESS,
     });
 
     yield put(push('/login'));
   } catch (error) {
     yield put({
-      type: REGISTER_ERROR,
+      type: USERS_ERROR,
       payload: error,
     });
   }
 }
 
-export default [takeLatest(REGISTER_REQUEST, register)];
+function* login({ payload }) {
+  try {
+    const response = yield call(api.loginUser, payload);
+
+    yield put({
+      type: USERS_SUCCESS,
+      payload: response,
+    });
+
+    yield put(push('/profile'));
+  } catch (error) {
+    yield put({
+      type: USERS_ERROR,
+      payload: error,
+    });
+  }
+}
+
+export default [
+  takeLatest(USERS_REGISTER, register),
+  takeLatest(USERS_LOGIN, login),
+];
