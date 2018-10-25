@@ -1,5 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { loginUser } from '../../ducks/login';
 import './style.css';
 import {
   Button,
@@ -34,7 +36,7 @@ class Login extends React.Component {
   };
   render() {
     const { actions, loading } = this.props;
-    const { hash, email } = this.state;
+    const { hash, email, disabled } = this.state;
 
     return (
       <div className="RegisterFormContainer ">
@@ -71,8 +73,9 @@ class Login extends React.Component {
                   color="teal"
                   fluid
                   size="large"
-                  onClick={this.handleSubmit}
-                  disabled={this.state.disabled}
+                  disabled={disabled}
+                  loading={loading}
+                  onClick={() => actions.loginUser(this.state)}
                 >
                   Login
                 </Button>
@@ -88,8 +91,20 @@ class Login extends React.Component {
   }
 }
 
+const mapDispatchToProps = (dispatch) => ({
+  actions: bindActionCreators(
+    {
+      loginUser,
+    },
+    dispatch,
+  ),
+});
+
 const mapStateToProps = (state) => ({
   ...state.users,
 });
 
-export default connect(mapStateToProps)(Login);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Login);
