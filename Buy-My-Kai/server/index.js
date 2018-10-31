@@ -13,8 +13,8 @@ if (process.env.NODE_ENV === 'production') {
 }
 
 server.use(express.json())
-server.use('/api/v1/users', users)
-server.use('/api/v1/products', products)
+server.use('/users', users)
+server.use('/products', products)
 
 // In production, serve any request not covered by the above as the built index
 // from CRA's `yarn build` (for BrowserRouter)

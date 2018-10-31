@@ -35,7 +35,7 @@ function addUser (user, testDb) {
           city: user.city,
           hours: user.hours,
           lat: user.lat,
-          long: user.long
+          long: user.lng
         })
     })
 }

@@ -2,14 +2,13 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import createHistory from 'history/createBrowserHistory';
 import creatSagaMiddleware from 'redux-saga';
 import { routerMiddleware } from 'react-router-redux';
-import rootReducer from '../reducers';
-import Sagas from '../sagas';
+import rootReducer from '../ducks';
+import sagas from '../sagas';
 
 const initialState = {
-  user: {
+  users: {
     loading: false,
-    userId: null, // after authorisation storing user id
-    name: '', // after authorisation storing user's name
+    user: {},
     error: '',
   },
   // posts: {
@@ -32,6 +31,6 @@ const store = createStore(
   composeEnhancers(middleware),
 );
 
-sagaMiddleware.run(Sagas);
+sagaMiddleware.run(sagas);
 
 export { store, history };
