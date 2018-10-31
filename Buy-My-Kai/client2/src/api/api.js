@@ -50,7 +50,7 @@ async function gerProfile() {
 
     return user;
   } catch (error) {
-    return new Error('Cannot login user: ' + error.message);
+    return new Error('Cannot get profile: ' + error.message);
   }
 }
 
