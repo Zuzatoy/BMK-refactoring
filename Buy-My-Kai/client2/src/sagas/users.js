@@ -11,6 +11,7 @@ const {
   USERS_REGISTER,
   USERS_ERROR,
   USERS_SUCCESS,
+  USERS_PROFILE,
 } = usersActions;
 
 function* register({ payload }) {
@@ -55,7 +56,24 @@ function* login({ payload }) {
   }
 }
 
+function* profile({ payload }) {
+  try {
+    const response = yield call(api.getProfile, payload);
+    yield put({
+      type: USERS_PROFILE,
+      payload: response,
+    });
+    yield put(push('/profile'));
+  } catch (error) {
+    yield put({
+      type: USERS_ERROR,
+      payload: error,
+    });
+  }
+}
+
 export default [
   takeLatest(USERS_REGISTER, register),
   takeLatest(USERS_LOGIN, login),
+  takeLatest(USERS_PROFILE, profile),
 ];
