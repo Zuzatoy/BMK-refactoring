@@ -25,7 +25,7 @@ export const loginUser = (payload) => ({
   payload,
 });
 
-export const profileUser = (payload) => ({
+export const getProfile = (payload) => ({
   type: USERS_PROFILE,
   payload,
 });

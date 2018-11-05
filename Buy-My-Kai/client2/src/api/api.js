@@ -43,9 +43,10 @@ async function getProfile() {
     const response = await request.get(`${SERVER_DEV_URL}/users/profile`, {
       headers: getHeaders(),
     });
-    const { token, user } = response.data;
+    console.log(response);
+    // const { token, user } = response.data;
 
-    setToken(token);
+    // setToken(token);
 
     return user;
   } catch (error) {

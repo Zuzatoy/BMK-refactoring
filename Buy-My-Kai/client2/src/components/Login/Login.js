@@ -23,7 +23,7 @@ class Login extends React.Component {
     this.setState({
       [e.target.name]: e.target.value,
     });
-  };
+  }; // сетстейт используем для изменения стейта
   handleSubmit = (e) => {
     e.preventDefault();
     // this.props.dispatch(loginUser(this.state.email, this.state.hash));
